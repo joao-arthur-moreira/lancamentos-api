@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ import com.jajm.lancamentosapi.exceptionhandler.LancamentosExceptionHandler.Erro
 import com.jajm.lancamentosapi.model.Lancamento;
 import com.jajm.lancamentosapi.repository.LancamentoRepository;
 import com.jajm.lancamentosapi.repository.filter.LancamentoFilter;
+import com.jajm.lancamentosapi.repository.projections.ResumoLancamento;
 import com.jajm.lancamentosapi.service.LancamentoService;
 import com.jajm.lancamentosapi.service.exception.PessoaInexistenteOuInativaException;
 
@@ -51,6 +53,12 @@ public class LancamentoResource {
 	@GetMapping
 	public Page<Lancamento> filtrar(LancamentoFilter lancamentoFilter, Pageable pageable){
 		return lancamentoRepository.filtrar(lancamentoFilter, pageable);
+	}
+	
+	@GetMapping(params = "resumo")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
+		return lancamentoRepository.resumir(lancamentoFilter, pageable);
 	}
 	
 	@GetMapping("/{codigo}")
