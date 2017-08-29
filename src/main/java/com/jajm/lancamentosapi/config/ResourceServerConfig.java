@@ -3,6 +3,7 @@ package com.jajm.lancamentosapi.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,6 +19,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecurityExpressionHandler;
 
 // utilizo a anotation @Configuration só para explicitar a classe pois dentro da anotation @EnableWebSecurity já tem a anotation se configuração
+@Profile("oauth-security")
 @Configuration
 @EnableWebSecurity
 @EnableResourceServer
